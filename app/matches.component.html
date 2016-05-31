@@ -1,0 +1,8 @@
+<h3>Matches</h3>
+<div class="grid grid-pad">
+  <div *ngFor="#match of matches" (click)="gotoDetail(hero)" class="col-1-1">
+    <div class="module hero">
+      <h4>{{match.id}}</h4>
+    </div>
+  </div>
+</div>
