@@ -4,6 +4,9 @@ import { Router } from 'angular2/router';
 import { Match } from './match';
 import { MatchService } from './match.service';
 
+import { Hero } from './hero';
+import { HeroService } from './hero.service';
+
 @Component({
   selector: 'my-matches',
   templateUrl: 'app/matches.component.html',
@@ -15,11 +18,18 @@ export class MatchesComponent implements OnInit {
 
   constructor(
     private _router: Router,
-    private _matchService: MatchService) {
+    private _matchService: MatchService,
+    private _heroService: HeroService) {
   }
 
  setWinner(match: Match) {
- 	 this.matches[match.id] = match;
+ 	 var winner = 0;
+   if(match.points1 > match.points2 ){
+      winner = match.idPlayer1;
+   }else{
+      winner = match.idPlayer2;
+   }
+   this._heroService.updateLeaderboard(winner);
   }
 
   ngOnInit() {

@@ -9,5 +9,9 @@ export class HeroService {
         return Promise.resolve(HEROES);
     }
 
+    updateLeaderboard(winner: number): void{
+    	HEROES[winner-1].points += 2 ;
+    }
+
 }
 
