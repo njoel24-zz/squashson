@@ -1,33 +1,31 @@
 import { Component, OnInit } from 'angular2/core';
 import { Router } from 'angular2/router';
 
-import { Hero } from './hero';
-import { HeroService } from './hero.service';
 import { Match } from './match';
 import { MatchService } from './match.service';
 
 @Component({
   selector: 'my-matches',
   templateUrl: 'app/matches.component.html',
-  styleUrls: ['app/matches.component.css']
+  styleUrls: ['app/leaderboard.component.css']
 })
 export class MatchesComponent implements OnInit {
 
-  matches: Match[] = [];
+  matches: Match[];
 
   constructor(
     private _router: Router,
-    private _heroService: HeroService,
     private _matchService: MatchService) {
+  }
+
+ setWinner(match: Match) {
+ 	 this.matches[match.id] = match;
   }
 
   ngOnInit() {
     this._matchService.getMatches()
-      .then(heroes => this.matches = heroes.slice(1,5));
-  }
-
-  gotoDetail(hero: Hero) {
-    let link = ['HeroDetail', { id: hero.id }];
-    this._router.navigate(link);
+      .then(
+	     matches => this.matches = matches
+	);
   }
 }

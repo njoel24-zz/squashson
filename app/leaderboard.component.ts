@@ -8,12 +8,10 @@ import { HeroService } from './hero.service';
 @Component({
   selector: 'my-leaderboard',
   templateUrl: 'app/leaderboard.component.html',
-  styleUrls:  ['app/leaderboard.component.css'],
-  directives: [HeroDetailComponent]
+  styleUrls:  ['app/leaderboard.component.css']
 })
 export class LeaderboardComponent implements OnInit {
   heroes: Hero[];
-  selectedHero: Hero;
 
   constructor(
     private _router: Router,
@@ -22,14 +20,13 @@ export class LeaderboardComponent implements OnInit {
   getHeroes() {
     this._heroService.getHeroes().then(heroes => this.heroes = heroes);
   }
+  
+  updateLeaderboard(){
+      
+  }
 
   ngOnInit() {
     this.getHeroes();
   }
 
-  onSelect(hero: Hero) { this.selectedHero = hero; }
-
-  gotoDetail() {
-    this._router.navigate(['HeroDetail', { id: this.selectedHero.id }]);
-  }
 }

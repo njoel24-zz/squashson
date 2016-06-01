@@ -1,8 +1,7 @@
-<h3>Matches</h3>
-<div class="grid grid-pad">
-  <div *ngFor="#match of matches" (click)="gotoDetail(hero)" class="col-1-1">
-    <div class="module hero">
-      <h4>{{match.id}}</h4>
-    </div>
-  </div>
-</div>
+  <h2>Matches</h2>
+  <ul class="heroes">
+    <li *ngFor="#match of matches" >
+    {{match.player1}}  <span class="badge"> <input class="badge" [(ngModel)]="match.points1" placeholder="0" /></span>  {{match.player2}} <input  [(ngModel)]="match.points2" placeholder="0" />
+    <a (click)="setWinner(match)"> End Match  </a>
+    </li>
+  </ul>
