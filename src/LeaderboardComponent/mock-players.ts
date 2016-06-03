@@ -1,6 +1,6 @@
-import { Hero } from './hero';
+import { Player } from './player';
 
-export var HEROES: Hero[] = [
+export var PLAYERS: Player[] = [
   { 'id': 1, 'name': 'Cristiano', 'points': 0, 'matches': 0 },
   { 'id': 2, 'name': 'Andrei', 'points': 0, 'matches': 0 },
   { 'id': 3, 'name': 'Sebastian', 'points': 0, 'matches': 0  },

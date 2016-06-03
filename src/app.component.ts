@@ -1,10 +1,10 @@
 import { Component } from 'angular2/core';
 import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from 'angular2/router';
 
-import { MatchesComponent } from './matches.component';
-import { LeaderboardComponent } from './leaderboard.component';
-import { HeroService } from './hero.service';
-import { MatchService } from './match.service';
+import { MatchesComponent } from './MatchComponent/matches.component';
+import { LeaderboardComponent } from './LeaderboardComponent/leaderboard.component';
+import { PlayerService } from './LeaderboardComponent/player.service';
+import { MatchService } from './MatchComponent/match.service';
 
 @Component({
     selector: 'squashson-app',
@@ -16,11 +16,11 @@ import { MatchService } from './match.service';
     </nav>
     <router-outlet></router-outlet>
   `,
-    styleUrls: ['app/app.component.css'],
+    styleUrls: ['src/app.component.css'],
     directives: [ROUTER_DIRECTIVES],
     providers: [
         ROUTER_PROVIDERS,
-        HeroService,
+        PlayerService,
         MatchService
     ]
 })
