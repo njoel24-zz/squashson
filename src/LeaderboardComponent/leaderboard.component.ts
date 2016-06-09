@@ -16,16 +16,17 @@ export class LeaderboardComponent implements OnInit {
     private _router: Router,
     private _playerService: PlayerService) { }
 
-  getHeroes() {
+  getPlayers() {
     this._playerService.getPlayers().then(players => this.players = players);
   }
   
   updateLeaderboard(){
+  //ordinamento elementi
       
   }
 
   ngOnInit() {
-    this.getHeroes();
+    this.getPlayers();
   }
 
 }

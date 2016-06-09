@@ -2,12 +2,12 @@
 	  <ul class="heroes">
 	    <li style="width:465px" *ngFor="#match of matches" >
 	    	<table>
-	    		<tr>
+	    		<tr   >
 	    			<td style="min-width: 190px; text-align: center;"><div style="margin-bottom:10px;">{{match.player1}}</div></td>
 	    			<td ><input class="badge" style="width:15px; top:-9px;" [(ngModel)]="match.points1" placeholder="0" /></td>
 	    			<td style="min-width: 190px; text-align: center;"> <div style="margin-bottom:10px;"> {{match.player2}} </div></td>
 	    			<td > <input class="badge" style="width:15px;top:-9px; "  [(ngModel)]="match.points2" placeholder="0" /></td>
-					<td ng-if="!match.isFinished">   <a (click)="match.isFinished=true;setWinner(match)"> End </a></td>
+	    			<td *ngIf="match.isFinished === false"> <a (click)="setWinner(match); saveCookie(matches);"> End </a></td>
 	 			</tr>
 	 		</table>
 	 	</li>

@@ -7,7 +7,9 @@ import { Matches } from './mock-matches';
 export class MatchService {
 
   getMatches() {
-    console.log(Promise.resolve(Matches));
+    var result = document.cookie.match(new RegExp('matches' + '=([^;]+)'));
+ 	if(result && (result = JSON.parse(result[1])))
+ 	return result;
     return Promise.resolve(Matches);
   }
 
