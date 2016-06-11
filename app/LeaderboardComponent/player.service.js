@@ -27,8 +27,28 @@ System.register(['angular2/core', './mock-players'], function(exports_1, context
                 PlayerService.prototype.getPlayers = function () {
                     return Promise.resolve(mock_players_1.PLAYERS);
                 };
+                PlayerService.prototype.resetLeaderboard = function () {
+                    var i;
+                    for (i = 0; i < mock_players_1.PLAYERS.length; i++) {
+                        mock_players_1.PLAYERS[i].points = 0;
+                    }
+                };
                 PlayerService.prototype.updateLeaderboard = function (winner) {
                     mock_players_1.PLAYERS[winner - 1].points += 2;
+                    return;
+                    var i;
+                    for (i = 0; i < mock_players_1.PLAYERS.length; i++) {
+                        var j;
+                        for (j = (i + 1); j < mock_players_1.PLAYERS.length; j++) {
+                            if (mock_players_1.PLAYERS[j].points > mock_players_1.PLAYERS[i].points) {
+                                var tmp;
+                                tmp = mock_players_1.PLAYERS[i];
+                                mock_players_1.PLAYERS[i] = mock_players_1.PLAYERS[j];
+                                mock_players_1.PLAYERS[j] = tmp;
+                                console.log(mock_players_1.PLAYERS);
+                            }
+                        }
+                    }
                 };
                 PlayerService = __decorate([
                     core_1.Injectable(), 

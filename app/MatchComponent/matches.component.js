@@ -35,6 +35,9 @@ System.register(['angular2/core', 'angular2/router', './match.service', '../Lead
                 }
                 MatchesComponent.prototype.setWinner = function (match) {
                     var winner = 0;
+                    if (match.points1 < 21 && match.points2 < 21) {
+                        return;
+                    }
                     if (match.points1 === match.points2) {
                         return;
                     }
@@ -44,18 +47,29 @@ System.register(['angular2/core', 'angular2/router', './match.service', '../Lead
                     else if (match.points1 < match.points2) {
                         winner = match.idPlayer2;
                     }
+                    match.isFinished = true;
+                    localStorage.setItem("matches", JSON.stringify(this.matches));
                     this._playerService.updateLeaderboard(winner);
                 };
                 MatchesComponent.prototype.ngOnInit = function () {
                     var _this = this;
-                    this._matchService.getMatches()
-                        .then(function (matches) { return _this.matches = matches; });
+                    var content = localStorage.getItem("matches");
+                    if (content !== null) {
+                        this.matches = JSON.parse(content);
+                        var i;
+                        this._playerService.resetLeaderboard();
+                        for (i = 0; i < (this.matches.length - 1); i++) {
+                            this.setWinner(this.matches[i]);
+                        }
+                    }
+                    else {
+                        this._matchService.getMatches().then(function (matches) { return _this.matches = matches; });
+                    }
                 };
                 MatchesComponent = __decorate([
                     core_1.Component({
                         selector: 'my-matches',
-                        templateUrl: 'src/MatchComponent/matches.component.html',
-                        styleUrls: ['src/MatchComponent/matches.component.css']
+                        templateUrl: 'MatchComponent/matches.component.html'
                     }), 
                     __metadata('design:paramtypes', [router_1.Router, match_service_1.MatchService, player_service_1.PlayerService])
                 ], MatchesComponent);

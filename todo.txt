@@ -1,8 +1,14 @@
 - cookie set
-- end macth style
 - orderby
 - indentation
-- name replace
+- name replace, eg heroes
+- export html
+- reset localstorage
 
 opt:
-rx
+- rx
+- gitignore
+- change kevin name
+- rm app dir from repository
+- tsconfig con app and src
+- use index in ngfor

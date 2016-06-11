@@ -1,1 +1,1 @@
-{"version":3,"file":"player.js","sourceRoot":"app/ts/","sources":["LeaderboardComponent/player.ts"],"names":[],"mappings":";;;;;;;YAAA;gBAAA;gBAKA,CAAC;gBAAD,aAAC;YAAD,CAAC,AALD,IAKC;YALD,2BAKC,CAAA"}
+{"version":3,"file":"player.js","sourceRoot":"","sources":["../../LeaderboardComponent/player.ts"],"names":[],"mappings":";;;;;;;YAAA;gBAAA;gBAKA,CAAC;gBAAD,aAAC;YAAD,CAAC,AALD,IAKC;YALD,2BAKC,CAAA"}

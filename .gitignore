@@ -3,3 +3,5 @@
 /app/*.map
 /public/*
 /typings/*
+/src/*
+npm-debug.log

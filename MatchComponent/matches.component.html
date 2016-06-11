@@ -1,0 +1,14 @@
+	  <h2>Matches</h2>
+	  <ul class="players">
+	    <li *ngFor="#match of matches" >
+	    	<table>
+	    		<tr>
+	    			<td class="player_name"><div>{{match.player1}}</div></td>
+	    			<td ><input class="badge" [(ngModel)]="match.points1" placeholder="0" /></td>
+	    			<td class="player_name"> <div> {{match.player2}} </div></td>
+	    			<td > <input class="badge" [(ngModel)]="match.points2" placeholder="0" /></td>
+	    			<td *ngIf="match.isFinished === false"> <a (click)="setWinner(match);"> End </a></td>
+	 			</tr>
+	 		</table>
+	 	</li>
+	 </ul>

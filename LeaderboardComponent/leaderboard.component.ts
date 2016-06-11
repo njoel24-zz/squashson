@@ -6,8 +6,7 @@ import { PlayerService } from '../LeaderboardComponent/player.service';
 
 @Component({
   selector: 'my-leaderboard',
-  templateUrl: 'src/LeaderboardComponent/leaderboard.component.html',
-  styleUrls: ['src/LeaderboardComponent/leaderboard.component.css']
+  templateUrl: 'LeaderboardComponent/leaderboard.component.html'
 })
 export class LeaderboardComponent implements OnInit {
   players: Player[];
@@ -20,11 +19,6 @@ export class LeaderboardComponent implements OnInit {
     this._playerService.getPlayers().then(players => this.players = players);
   }
   
-  updateLeaderboard(){
-  //ordinamento elementi
-      
-  }
-
   ngOnInit() {
     this.getPlayers();
   }

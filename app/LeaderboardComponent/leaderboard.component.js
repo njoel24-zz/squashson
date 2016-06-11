@@ -29,20 +29,17 @@ System.register(['angular2/core', 'angular2/router', '../LeaderboardComponent/pl
                     this._router = _router;
                     this._playerService = _playerService;
                 }
-                LeaderboardComponent.prototype.getHeroes = function () {
+                LeaderboardComponent.prototype.getPlayers = function () {
                     var _this = this;
                     this._playerService.getPlayers().then(function (players) { return _this.players = players; });
                 };
-                LeaderboardComponent.prototype.updateLeaderboard = function () {
-                };
                 LeaderboardComponent.prototype.ngOnInit = function () {
-                    this.getHeroes();
+                    this.getPlayers();
                 };
                 LeaderboardComponent = __decorate([
                     core_1.Component({
                         selector: 'my-leaderboard',
-                        templateUrl: 'src/LeaderboardComponent/leaderboard.component.html',
-                        styleUrls: ['src/LeaderboardComponent/leaderboard.component.css']
+                        templateUrl: 'LeaderboardComponent/leaderboard.component.html'
                     }), 
                     __metadata('design:paramtypes', [router_1.Router, player_service_1.PlayerService])
                 ], LeaderboardComponent);

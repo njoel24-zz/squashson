@@ -1,0 +1,6 @@
+  <h2>Leaderboard</h2>
+  <ul class="players">
+    <li *ngFor="#player of players">
+      <span  style="padding-left:10px;"> {{player.name}} </span> <span  class="badge leaderboard points" style="width: 30px;">{{player.points}} pt</span>
+    </li>
+  </ul>

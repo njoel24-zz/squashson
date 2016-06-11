@@ -25,7 +25,6 @@ System.register(['angular2/core', './mock-matches'], function(exports_1, context
                 function MatchService() {
                 }
                 MatchService.prototype.getMatches = function () {
-                    console.log(Promise.resolve(mock_matches_1.Matches));
                     return Promise.resolve(mock_matches_1.Matches);
                 };
                 MatchService = __decorate([

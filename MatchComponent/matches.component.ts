@@ -1,6 +1,7 @@
 import { Component, OnInit } from 'angular2/core';
 import { Router } from 'angular2/router';
 
+
 import { Match } from './match';
 import { MatchService } from './match.service';
 
@@ -10,8 +11,7 @@ import { PlayerService } from '../LeaderboardComponent/player.service';
 
 @Component({
     selector: 'my-matches',
-    templateUrl: 'src/MatchComponent/matches.component.html',
-    styleUrls: ['src/LeaderboardComponent/leaderboard.component.css']
+    templateUrl: 'MatchComponent/matches.component.html'
 })
 
 export class MatchesComponent implements OnInit {
@@ -21,16 +21,14 @@ export class MatchesComponent implements OnInit {
     constructor(
         private _router: Router,
         private _matchService: MatchService,
-        private _playerService: PlayerService) {
+        private _playerService: PlayerService
+        ) {
     }
 
     setWinner(match: Match) {
         var winner = 0;
         
-        if(match.isFinished === true){
-            return;
-        }
-
+        
         if (match.points1 < 21  && match.points2 < 21) {
             return;
         }
@@ -46,20 +44,26 @@ export class MatchesComponent implements OnInit {
         }
 
         match.isFinished = true;
+        localStorage.setItem("matches",JSON.stringify(this.matches));
         this._playerService.updateLeaderboard(winner);
-    }
 
-    saveCookie(matches){
-        var name = "matches";
-        var cookie = [name, '=', JSON.stringify(matches), '; domain=.', window.location.host.toString(), '; path=/;'].join('');
-        console.log(cookie)
-        document.cookie = cookie;
     }
 
     ngOnInit() {
-        this._matchService.getMatches()
-            .then(
+        const content: any = localStorage.getItem("matches");
+        if(content !== null){
+            this.matches = JSON.parse(content);
+            var i: number;
+            this._playerService.resetLeaderboard();            
+            for(i=0; i<(this.matches.length-1);i++){
+                this.setWinner(this.matches[i]);
+            }
+            
+        }
+        else {
+            this._matchService.getMatches().then(
                 matches => this.matches = matches
                 );
+            }
     }
 }
