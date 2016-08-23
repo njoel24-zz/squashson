@@ -1,3 +1,7 @@
+Simple application showing a leaderboard based on a tournament.
+Cloned from Tour of Heroes - Angular 2 training example - by John Papa.
+
+
 # Getting Started
 
 1. Fork and clone this repo
