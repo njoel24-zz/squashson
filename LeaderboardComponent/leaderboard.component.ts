@@ -13,7 +13,12 @@ export class LeaderboardComponent implements OnInit {
 
   constructor(
     private _router: Router,
-    private _playerService: PlayerService) { }
+    private _playerService: PlayerService) { 
+
+
+    var close3ClickStream = Rx.Observable.fromEvent(closeButton3, 'click');
+
+    }
 
   getPlayers() {
     this._playerService.getPlayers().then(players => this.players = players);

@@ -28,12 +28,10 @@ export class PlayerService {
 					tmp = PLAYERS[i];
 					PLAYERS[i] = PLAYERS[j];
 					PLAYERS[j] = tmp;
-					console.log(PLAYERS);
 				}
         	}
         }
 
     }
-
 }
 
