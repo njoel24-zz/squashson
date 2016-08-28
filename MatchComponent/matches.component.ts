@@ -4,7 +4,10 @@ import { Router } from 'angular2/router';
 import { Match } from './match';
 import { MatchService } from './match.service';
 import { MatchConsts } from './match.consts';
-
+import { LeaderboardModel } from './match.model';
+import {Observable} from "rxjs/Observable";
+import any = jasmine.any;
+import {Subscriber} from "rxjs";
 
 @Component({
     selector: 'my-matches',
@@ -14,19 +17,21 @@ import { MatchConsts } from './match.consts';
 export class MatchesComponent implements OnInit {
 
     matches: Match[];
+    observableData: Observable<any>;
 
     constructor(
         private _router: Router,
         private _matchService: MatchService,
+        private _matchConsts: MatchConsts
         ) {
     }
 
     setWinner(match: Match) {
-        var winner = 0;
-        let points1 = parseInt(match.points1);
-        let points2 = parseInt(match.points2);
+        var winner:number = 0;
+        let points1:number = match.points1;
+        let points2:number = match.points2;
 
-        if ( points1 < MatchConsts.matchPoints  && points2 < MatchConsts.matchPoints) {
+        if ( points1 < this._matchConsts.matchPoints  && points2 < this._matchConsts.matchPoints) {
             return;
         }
 
@@ -42,7 +47,11 @@ export class MatchesComponent implements OnInit {
 
         match.isFinished = true;
         localStorage.setItem("matches",JSON.stringify(this.matches));
-        //emit setWinner, so the leaderboard can reset update itself
+        //create an observable , emit setWinner, so the leaderboard can reset update itself
+        this.observableData = new Observable((observer:Subscriber<number>)=>{
+            observer.next(winner);
+            console.log("this observable is being subscribed to");
+        });
     }
 
     ngOnInit() {
@@ -51,6 +60,10 @@ export class MatchesComponent implements OnInit {
             this.matches = JSON.parse(content);
             var i: number;
             //emit matchStart, so the leaderboard can reset itself
+            this.observableData = new Observable((observer:Subscriber<string>)=>{
+                observer.next(this._matchConsts.resetLeaderboard);
+                console.log("this observable is being subscribed to");
+            });
             for(i=0; i<(this.matches.length-1);i++){
                 this.setWinner(this.matches[i]);
             }

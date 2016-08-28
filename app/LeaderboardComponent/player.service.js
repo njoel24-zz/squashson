@@ -45,7 +45,6 @@ System.register(['angular2/core', './mock-players'], function(exports_1, context
                                 tmp = mock_players_1.PLAYERS[i];
                                 mock_players_1.PLAYERS[i] = mock_players_1.PLAYERS[j];
                                 mock_players_1.PLAYERS[j] = tmp;
-                                console.log(mock_players_1.PLAYERS);
                             }
                         }
                     }

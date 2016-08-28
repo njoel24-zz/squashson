@@ -1,3 +1,9 @@
+import { Injectable } from 'angular2/core';
+@Injectable()
+
 export class MatchConsts {
-  matchPoints: 21;
+     matchPoints: number = 21;
+     resetLeaderboard: string = "resetLeaderboard";
 }
+
+
