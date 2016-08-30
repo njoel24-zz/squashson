@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './match.service', '../LeaderboardComponent/player.service'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', './match.service', './match.consts'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,8 +10,8 @@ System.register(['angular2/core', 'angular2/router', './match.service', '../Lead
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, match_service_1, player_service_1;
-    var MatchesComponent;
+    var core_1, router_1, match_service_1, match_consts_1;
+    var any, MatchesComponent;
     return {
         setters:[
             function (core_1_1) {
@@ -23,41 +23,45 @@ System.register(['angular2/core', 'angular2/router', './match.service', '../Lead
             function (match_service_1_1) {
                 match_service_1 = match_service_1_1;
             },
-            function (player_service_1_1) {
-                player_service_1 = player_service_1_1;
+            function (match_consts_1_1) {
+                match_consts_1 = match_consts_1_1;
             }],
         execute: function() {
             MatchesComponent = (function () {
-                function MatchesComponent(_router, _matchService, _playerService) {
+                function MatchesComponent(_router, _matchService, _matchConsts) {
                     this._router = _router;
                     this._matchService = _matchService;
-                    this._playerService = _playerService;
+                    this._matchConsts = _matchConsts;
                 }
                 MatchesComponent.prototype.setWinner = function (match) {
                     var winner = 0;
-                    if (match.points1 < 21 && match.points2 < 21) {
+                    var points1 = match.points1;
+                    var points2 = match.points2;
+                    if (points1 < this._matchConsts.matchPoints && points2 < this._matchConsts.matchPoints) {
                         return;
                     }
-                    if (match.points1 === match.points2) {
+                    if (points1 === points2) {
                         return;
                     }
-                    if (match.points1 > match.points2) {
+                    if (points1 > points2) {
                         winner = match.idPlayer1;
                     }
-                    else if (match.points1 < match.points2) {
+                    else if (points1 < points2) {
                         winner = match.idPlayer2;
                     }
                     match.isFinished = true;
                     localStorage.setItem("matches", JSON.stringify(this.matches));
-                    this._playerService.updateLeaderboard(winner);
+                    //create an observable , emit setWinner, so the leaderboard can reset update itself
+                    this._matchService.setObservable(winner);
                 };
                 MatchesComponent.prototype.ngOnInit = function () {
                     var _this = this;
                     var content = localStorage.getItem("matches");
-                    if (content !== null) {
+                    if (content) {
                         this.matches = JSON.parse(content);
                         var i;
-                        this._playerService.resetLeaderboard();
+                        //emit matchStart, so the leaderboard can reset itself
+                        this._matchService.setObservable2(this._matchConsts.resetLeaderboard);
                         for (i = 0; i < (this.matches.length - 1); i++) {
                             this.setWinner(this.matches[i]);
                         }
@@ -71,7 +75,7 @@ System.register(['angular2/core', 'angular2/router', './match.service', '../Lead
                         selector: 'my-matches',
                         templateUrl: 'MatchComponent/matches.component.html'
                     }), 
-                    __metadata('design:paramtypes', [router_1.Router, match_service_1.MatchService, player_service_1.PlayerService])
+                    __metadata('design:paramtypes', [router_1.Router, match_service_1.MatchService, match_consts_1.MatchConsts])
                 ], MatchesComponent);
                 return MatchesComponent;
             }());

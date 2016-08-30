@@ -4,6 +4,7 @@ import { MatchesComponent } from './MatchComponent/matches.component';
 import { LeaderboardComponent } from './LeaderboardComponent/leaderboard.component';
 import { PlayerService } from './LeaderboardComponent/player.service';
 import { MatchService } from './MatchComponent/match.service';
+import { MatchConsts } from './MatchComponent/match.consts';
 
 @Component({
     selector: 'squashson-app',
@@ -20,7 +21,8 @@ import { MatchService } from './MatchComponent/match.service';
     providers: [
         ROUTER_PROVIDERS,
         PlayerService,
-        MatchService
+        MatchService,
+        MatchConsts //TODO: not the right place!
     ]
 })
 @RouteConfig([
