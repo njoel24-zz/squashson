@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './match.service', './match.consts', "rxjs/Observable"], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', './match.service', './match.consts'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', './match.service', './match
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, match_service_1, match_consts_1, Observable_1;
+    var core_1, router_1, match_service_1, match_consts_1;
     var any, MatchesComponent;
     return {
         setters:[
@@ -25,9 +25,6 @@ System.register(['angular2/core', 'angular2/router', './match.service', './match
             },
             function (match_consts_1_1) {
                 match_consts_1 = match_consts_1_1;
-            },
-            function (Observable_1_1) {
-                Observable_1 = Observable_1_1;
             }],
         execute: function() {
             MatchesComponent = (function () {
@@ -55,10 +52,7 @@ System.register(['angular2/core', 'angular2/router', './match.service', './match
                     match.isFinished = true;
                     localStorage.setItem("matches", JSON.stringify(this.matches));
                     //create an observable , emit setWinner, so the leaderboard can reset update itself
-                    this.observableData = new Observable_1.Observable(function (observer) {
-                        observer.next(winner);
-                        console.log("this observable is being subscribed to");
-                    });
+                    this._matchService.setObservable(winner);
                 };
                 MatchesComponent.prototype.ngOnInit = function () {
                     var _this = this;
@@ -67,10 +61,7 @@ System.register(['angular2/core', 'angular2/router', './match.service', './match
                         this.matches = JSON.parse(content);
                         var i;
                         //emit matchStart, so the leaderboard can reset itself
-                        this.observableData = new Observable_1.Observable(function (observer) {
-                            observer.next(_this._matchConsts.resetLeaderboard);
-                            console.log("this observable is being subscribed to");
-                        });
+                        this._matchService.setObservable2(this._matchConsts.resetLeaderboard);
                         for (i = 0; i < (this.matches.length - 1); i++) {
                             this.setWinner(this.matches[i]);
                         }
