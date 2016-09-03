@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './match.service', './match.consts'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', './match.service', '../LeaderboardComponent/player.service', './match.consts', 'rxjs/Rx'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', './match.service', './match
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, match_service_1, match_consts_1;
+    var core_1, router_1, match_service_1, player_service_1, match_consts_1, Rx_1;
     var any, MatchesComponent;
     return {
         setters:[
@@ -23,20 +23,33 @@ System.register(['angular2/core', 'angular2/router', './match.service', './match
             function (match_service_1_1) {
                 match_service_1 = match_service_1_1;
             },
+            function (player_service_1_1) {
+                player_service_1 = player_service_1_1;
+            },
             function (match_consts_1_1) {
                 match_consts_1 = match_consts_1_1;
+            },
+            function (Rx_1_1) {
+                Rx_1 = Rx_1_1;
             }],
         execute: function() {
             MatchesComponent = (function () {
-                function MatchesComponent(_router, _matchService, _matchConsts) {
+                function MatchesComponent(_router, _matchService, _matchConsts, _playerService) {
                     this._router = _router;
                     this._matchService = _matchService;
                     this._matchConsts = _matchConsts;
+                    this._playerService = _playerService;
                 }
-                MatchesComponent.prototype.setWinner = function (match) {
+                MatchesComponent.prototype.restartMatches = function () {
+                    localStorage.clear();
+                    this.setEnvironment();
+                };
+                MatchesComponent.prototype.setWinner = function (match, setObservable) {
+                    var _this = this;
+                    if (setObservable === void 0) { setObservable = true; }
                     var winner = 0;
-                    var points1 = match.points1;
-                    var points2 = match.points2;
+                    var points1 = parseInt(match.points1);
+                    var points2 = parseInt(match.points2);
                     if (points1 < this._matchConsts.matchPoints && points2 < this._matchConsts.matchPoints) {
                         return;
                     }
@@ -51,19 +64,31 @@ System.register(['angular2/core', 'angular2/router', './match.service', './match
                     }
                     match.isFinished = true;
                     localStorage.setItem("matches", JSON.stringify(this.matches));
-                    //create an observable , emit setWinner, so the leaderboard can reset update itself
-                    this._matchService.setObservable(winner);
+                    if (setObservable) {
+                        Rx_1.default.Observable.of(winner).subscribe(function (value) {
+                            console.log("new value from Observable:" + value);
+                            switch (value) {
+                                case _this._matchConsts.resetLeaderboard:
+                                    _this._playerService.resetLeaderboard();
+                                    break;
+                                default:
+                                    _this._playerService.updateLeaderboard(value);
+                                    break;
+                            }
+                        });
+                    }
                 };
                 MatchesComponent.prototype.ngOnInit = function () {
+                    this.setEnvironment();
+                };
+                MatchesComponent.prototype.setEnvironment = function () {
                     var _this = this;
                     var content = localStorage.getItem("matches");
                     if (content) {
                         this.matches = JSON.parse(content);
                         var i;
-                        //emit matchStart, so the leaderboard can reset itself
-                        this._matchService.setObservable2(this._matchConsts.resetLeaderboard);
                         for (i = 0; i < (this.matches.length - 1); i++) {
-                            this.setWinner(this.matches[i]);
+                            this.setWinner(this.matches[i], false);
                         }
                     }
                     else {
@@ -75,7 +100,7 @@ System.register(['angular2/core', 'angular2/router', './match.service', './match
                         selector: 'my-matches',
                         templateUrl: 'MatchComponent/matches.component.html'
                     }), 
-                    __metadata('design:paramtypes', [router_1.Router, match_service_1.MatchService, match_consts_1.MatchConsts])
+                    __metadata('design:paramtypes', [router_1.Router, match_service_1.MatchService, match_consts_1.MatchConsts, player_service_1.PlayerService])
                 ], MatchesComponent);
                 return MatchesComponent;
             }());
