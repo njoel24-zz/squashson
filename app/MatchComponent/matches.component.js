@@ -44,9 +44,8 @@ System.register(['angular2/core', 'angular2/router', './match.service', '../Lead
                     localStorage.clear();
                     this.setEnvironment();
                 };
-                MatchesComponent.prototype.setWinner = function (match, setObservable) {
+                MatchesComponent.prototype.setWinner = function (match) {
                     var _this = this;
-                    if (setObservable === void 0) { setObservable = true; }
                     var winner = 0;
                     var points1 = parseInt(match.points1);
                     var points2 = parseInt(match.points2);
@@ -64,19 +63,17 @@ System.register(['angular2/core', 'angular2/router', './match.service', '../Lead
                     }
                     match.isFinished = true;
                     localStorage.setItem("matches", JSON.stringify(this.matches));
-                    if (setObservable) {
-                        Rx_1.default.Observable.of(winner).subscribe(function (value) {
-                            console.log("new value from Observable:" + value);
-                            switch (value) {
-                                case _this._matchConsts.resetLeaderboard:
-                                    _this._playerService.resetLeaderboard();
-                                    break;
-                                default:
-                                    _this._playerService.updateLeaderboard(value);
-                                    break;
-                            }
-                        });
-                    }
+                    Rx_1.default.Observable.of(winner).subscribe(function (value) {
+                        console.log("new value from Observable:" + value);
+                        switch (value) {
+                            case _this._matchConsts.resetLeaderboard:
+                                _this._playerService.resetLeaderboard();
+                                break;
+                            default:
+                                _this._playerService.updateLeaderboard(value);
+                                break;
+                        }
+                    });
                 };
                 MatchesComponent.prototype.ngOnInit = function () {
                     this.setEnvironment();
@@ -85,10 +82,17 @@ System.register(['angular2/core', 'angular2/router', './match.service', '../Lead
                     var _this = this;
                     var content = localStorage.getItem("matches");
                     if (content) {
+                        this._playerService.resetLeaderboard();
                         this.matches = JSON.parse(content);
+                        Rx_1.default.Observable.of(this.matches).subscribe(function (value) {
+                            console.log("new value from Observable:" + value);
+                            for (i = 0; i < (value.length - 1); i++) {
+                                _this.setWinner(_this.matches[i]);
+                            }
+                        });
                         var i;
                         for (i = 0; i < (this.matches.length - 1); i++) {
-                            this.setWinner(this.matches[i], false);
+                            this.setWinner(this.matches[i]);
                         }
                     }
                     else {

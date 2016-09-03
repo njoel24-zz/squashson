@@ -29,7 +29,7 @@ export class MatchesComponent implements OnInit {
         this.setEnvironment();
     }
 
-    setWinner(match: Match, setObservable:boolean = true) {
+    setWinner(match: Match) {
         var winner:number = 0;
         let points1:number = parseInt(match.points1);
         let points2:number = parseInt(match.points2);
@@ -52,7 +52,7 @@ export class MatchesComponent implements OnInit {
 
         match.isFinished = true;
         localStorage.setItem("matches",JSON.stringify(this.matches));
-       if(setObservable) {
+
            Rx.Observable.of(winner).subscribe((value: any) => {
                console.log("new value from Observable:" + value);
                switch (value) {
@@ -65,7 +65,6 @@ export class MatchesComponent implements OnInit {
 
                }
            });
-       }
     }
 
     ngOnInit() {
@@ -75,10 +74,19 @@ export class MatchesComponent implements OnInit {
     setEnvironment(){
         const content: any = localStorage.getItem("matches");
         if(content){
+            this._playerService.resetLeaderboard();
             this.matches = JSON.parse(content);
+
+            Rx.Observable.of(this.matches).subscribe((value: any) => {
+                console.log("new value from Observable:" + value);
+                for(i=0; i<(value.length-1);i++){
+                    this.setWinner(this.matches[i]);
+                }
+            });
+
             var i: number;
             for(i=0; i<(this.matches.length-1);i++){
-                this.setWinner(this.matches[i],false);
+                this.setWinner(this.matches[i]);
             }
         }
         else {
