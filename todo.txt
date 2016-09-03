@@ -1,14 +1,8 @@
 - cookie set
 - orderby
-- indentation
-- name replace, eg heroes
 - export html
-- reset localstorage
 
 opt:
-- rx
 - gitignore
-- change kevin name
-- rm app dir from repository
 - tsconfig con app and src
 - use index in ngfor

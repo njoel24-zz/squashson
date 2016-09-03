@@ -1,28 +1,15 @@
 import { Injectable } from 'angular2/core';
 import { Matches } from './mock-matches';
-import {Observable} from "rxjs/Observable";
-import {Subscriber} from "rxjs";
+import { PlayerService } from '../LeaderboardComponent/player.service';
+import { MatchConsts } from './match.consts';
 
 @Injectable()
 export class MatchService {
 
-    observableData: Observable<any>;
+    constructor(private _playerService: PlayerService,private _matchConsts: MatchConsts){
+    }
 
     getMatches() {
         return Promise.resolve(Matches);
     }
-
-    setObservable(winner: number){
-        this.observableData = new Observable((observer:Subscriber<number>)=>{
-        observer.next(winner);
-        console.log("this observable is being subscribed to");
-    });
-  }
-
-    setObservable2(value: string){
-        this.observableData = new Observable((observer:Subscriber<string>)=>{
-        observer.next(value);
-        console.log("this observable is being subscribed to");
-    });
-  }
 }
