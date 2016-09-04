@@ -1,4 +1,4 @@
-System.register(['angular2/core', './mock-matches', '../LeaderboardComponent/player.service', './match.consts'], function(exports_1, context_1) {
+System.register(['angular2/core', './mock-matches', './match.consts'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', './mock-matches', '../LeaderboardComponent/pla
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, mock_matches_1, player_service_1, match_consts_1;
+    var core_1, mock_matches_1, match_consts_1;
     var MatchService;
     return {
         setters:[
@@ -20,16 +20,12 @@ System.register(['angular2/core', './mock-matches', '../LeaderboardComponent/pla
             function (mock_matches_1_1) {
                 mock_matches_1 = mock_matches_1_1;
             },
-            function (player_service_1_1) {
-                player_service_1 = player_service_1_1;
-            },
             function (match_consts_1_1) {
                 match_consts_1 = match_consts_1_1;
             }],
         execute: function() {
             MatchService = (function () {
-                function MatchService(_playerService, _matchConsts) {
-                    this._playerService = _playerService;
+                function MatchService(_matchConsts) {
                     this._matchConsts = _matchConsts;
                 }
                 MatchService.prototype.getMatches = function () {
@@ -37,7 +33,7 @@ System.register(['angular2/core', './mock-matches', '../LeaderboardComponent/pla
                 };
                 MatchService = __decorate([
                     core_1.Injectable(), 
-                    __metadata('design:paramtypes', [player_service_1.PlayerService, match_consts_1.MatchConsts])
+                    __metadata('design:paramtypes', [match_consts_1.MatchConsts])
                 ], MatchService);
                 return MatchService;
             }());

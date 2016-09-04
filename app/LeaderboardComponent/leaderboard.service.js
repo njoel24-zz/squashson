@@ -11,7 +11,7 @@ System.register(['angular2/core', './mock-players'], function(exports_1, context
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, mock_players_1;
-    var PlayerService;
+    var LeaderBoardService;
     return {
         setters:[
             function (core_1_1) {
@@ -21,19 +21,19 @@ System.register(['angular2/core', './mock-players'], function(exports_1, context
                 mock_players_1 = mock_players_1_1;
             }],
         execute: function() {
-            PlayerService = (function () {
-                function PlayerService() {
+            LeaderBoardService = (function () {
+                function LeaderBoardService() {
                 }
-                PlayerService.prototype.getPlayers = function () {
+                LeaderBoardService.prototype.getPlayers = function () {
                     return Promise.resolve(mock_players_1.PLAYERS);
                 };
-                PlayerService.prototype.reset = function () {
+                LeaderBoardService.prototype.reset = function () {
                     var i;
                     for (i = 0; i < mock_players_1.PLAYERS.length; i++) {
                         mock_players_1.PLAYERS[i].points = 0;
                     }
                 };
-                PlayerService.prototype.update = function (winner) {
+                LeaderBoardService.prototype.update = function (winner) {
                     mock_players_1.PLAYERS[winner - 1].points += 2;
                     return;
                     var i;
@@ -49,14 +49,14 @@ System.register(['angular2/core', './mock-players'], function(exports_1, context
                         }
                     }
                 };
-                PlayerService = __decorate([
+                LeaderBoardService = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [])
-                ], PlayerService);
-                return PlayerService;
+                ], LeaderBoardService);
+                return LeaderBoardService;
             }());
-            exports_1("PlayerService", PlayerService);
+            exports_1("LeaderBoardService", LeaderBoardService);
         }
     }
 });
-//# sourceMappingURL=player.service.js.map
+//# sourceMappingURL=leaderboard.service.js.map

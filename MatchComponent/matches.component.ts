@@ -2,7 +2,7 @@ import { Component, OnInit } from 'angular2/core';
 import { Router } from 'angular2/router';
 import { Match } from './match';
 import { MatchService } from './match.service';
-import { PlayerService } from '../LeaderboardComponent/player.service';
+import { LeaderBoardService } from '../LeaderboardComponent/leaderboard.service';
 import { MatchConsts } from './match.consts';
 import Rx from 'rxjs/Rx';
 import any = jasmine.any;
@@ -20,7 +20,7 @@ export class MatchesComponent implements OnInit {
         private _router: Router,
         private _matchService: MatchService,
         private _matchConsts: MatchConsts,
-        private _playerService:PlayerService
+        private _leaderboardService: LeaderBoardService
         ) {
     }
 
@@ -48,8 +48,6 @@ export class MatchesComponent implements OnInit {
             winner = match.idPlayer2;
         }
 
-
-
         match.isFinished = true;
         localStorage.setItem("matches",JSON.stringify(this.matches));
 
@@ -57,10 +55,10 @@ export class MatchesComponent implements OnInit {
                console.log("new value from Observable:" + value);
                switch (value) {
                    case this._matchConsts.resetLeaderboard:
-                       this._playerService.resetLeaderboard();
+                       this._leaderboardService.reset();
                        break;
                    default:
-                       this._playerService.updateLeaderboard(value);
+                       this._leaderboardService.update(value);
                        break;
 
                }
@@ -74,20 +72,8 @@ export class MatchesComponent implements OnInit {
     setEnvironment(){
         const content: any = localStorage.getItem("matches");
         if(content){
-            this._playerService.resetLeaderboard();
-            this.matches = JSON.parse(content);
-
-            Rx.Observable.of(this.matches).subscribe((value: any) => {
-                console.log("new value from Observable:" + value);
-                for(i=0; i<(value.length-1);i++){
-                    this.setWinner(this.matches[i]);
-                }
-            });
-
-            var i: number;
-            for(i=0; i<(this.matches.length-1);i++){
-                this.setWinner(this.matches[i]);
-            }
+            this._leaderboardService.reset();
+            Rx.Observable.fromPromise(JSON.parse(content).forEach((match: Match)=>{this.setWinner(match);}));
         }
         else {
             this._matchService.getMatches().then(

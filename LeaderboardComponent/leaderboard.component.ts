@@ -1,7 +1,7 @@
 import { Component, OnInit } from 'angular2/core';
 import { Router } from 'angular2/router';
 import { Player } from '../LeaderboardComponent/player';
-import { PlayerService } from '../LeaderboardComponent/player.service';
+import { LeaderBoardService } from './leaderboard.service';
 
 @Component({
   selector: 'my-leaderboard',
@@ -13,10 +13,10 @@ export class LeaderboardComponent implements OnInit {
 
   constructor(
     private _router: Router,
-    private _playerService: PlayerService) {}
+    private _leaderBoardService: LeaderBoardService) {}
 
   getPlayers() {
-    this._playerService.getPlayers().then(players => this.players = players);
+    this._leaderBoardService.getPlayers().then(players => this.players = players);
   }
 
   ngOnInit() {

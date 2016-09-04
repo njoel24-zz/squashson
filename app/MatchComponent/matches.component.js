@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './match.service', '../LeaderboardComponent/player.service', './match.consts', 'rxjs/Rx'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', './match.service', '../LeaderboardComponent/leaderboard.service', './match.consts', 'rxjs/Rx'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', './match.service', '../Lead
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, match_service_1, player_service_1, match_consts_1, Rx_1;
+    var core_1, router_1, match_service_1, leaderboard_service_1, match_consts_1, Rx_1;
     var any, MatchesComponent;
     return {
         setters:[
@@ -23,8 +23,8 @@ System.register(['angular2/core', 'angular2/router', './match.service', '../Lead
             function (match_service_1_1) {
                 match_service_1 = match_service_1_1;
             },
-            function (player_service_1_1) {
-                player_service_1 = player_service_1_1;
+            function (leaderboard_service_1_1) {
+                leaderboard_service_1 = leaderboard_service_1_1;
             },
             function (match_consts_1_1) {
                 match_consts_1 = match_consts_1_1;
@@ -34,11 +34,11 @@ System.register(['angular2/core', 'angular2/router', './match.service', '../Lead
             }],
         execute: function() {
             MatchesComponent = (function () {
-                function MatchesComponent(_router, _matchService, _matchConsts, _playerService) {
+                function MatchesComponent(_router, _matchService, _matchConsts, _leaderboardService) {
                     this._router = _router;
                     this._matchService = _matchService;
                     this._matchConsts = _matchConsts;
-                    this._playerService = _playerService;
+                    this._leaderboardService = _leaderboardService;
                 }
                 MatchesComponent.prototype.restartMatches = function () {
                     localStorage.clear();
@@ -67,10 +67,10 @@ System.register(['angular2/core', 'angular2/router', './match.service', '../Lead
                         console.log("new value from Observable:" + value);
                         switch (value) {
                             case _this._matchConsts.resetLeaderboard:
-                                _this._playerService.resetLeaderboard();
+                                _this._leaderboardService.reset();
                                 break;
                             default:
-                                _this._playerService.updateLeaderboard(value);
+                                _this._leaderboardService.update(value);
                                 break;
                         }
                     });
@@ -82,18 +82,8 @@ System.register(['angular2/core', 'angular2/router', './match.service', '../Lead
                     var _this = this;
                     var content = localStorage.getItem("matches");
                     if (content) {
-                        this._playerService.resetLeaderboard();
-                        this.matches = JSON.parse(content);
-                        Rx_1.default.Observable.of(this.matches).subscribe(function (value) {
-                            console.log("new value from Observable:" + value);
-                            for (i = 0; i < (value.length - 1); i++) {
-                                _this.setWinner(_this.matches[i]);
-                            }
-                        });
-                        var i;
-                        for (i = 0; i < (this.matches.length - 1); i++) {
-                            this.setWinner(this.matches[i]);
-                        }
+                        this._leaderboardService.reset();
+                        Rx_1.default.Observable.fromPromise(JSON.parse(content).forEach(function (match) { _this.setWinner(match); }));
                     }
                     else {
                         this._matchService.getMatches().then(function (matches) { return _this.matches = matches; });
@@ -104,7 +94,7 @@ System.register(['angular2/core', 'angular2/router', './match.service', '../Lead
                         selector: 'my-matches',
                         templateUrl: 'MatchComponent/matches.component.html'
                     }), 
-                    __metadata('design:paramtypes', [router_1.Router, match_service_1.MatchService, match_consts_1.MatchConsts, player_service_1.PlayerService])
+                    __metadata('design:paramtypes', [router_1.Router, match_service_1.MatchService, match_consts_1.MatchConsts, leaderboard_service_1.LeaderBoardService])
                 ], MatchesComponent);
                 return MatchesComponent;
             }());

@@ -2,10 +2,9 @@
     import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from 'angular2/router';
     import { MatchesComponent } from './MatchComponent/matches.component';
     import { LeaderboardComponent } from './LeaderboardComponent/leaderboard.component';
-    import { PlayerService } from './LeaderboardComponent/player.service';
+    import { LeaderBoardService } from './LeaderboardComponent/leaderboard.service';
     import { MatchService } from './MatchComponent/match.service';
     import { MatchConsts } from './MatchComponent/match.consts';
-
 
     @Component({
         selector: 'squashson-app',
@@ -21,9 +20,8 @@
         directives: [ROUTER_DIRECTIVES],
         providers: [
             ROUTER_PROVIDERS,
-            PlayerService,
+            LeaderBoardService,
             MatchService,
-
             MatchConsts //TODO: not the right place!
         ]
     })
